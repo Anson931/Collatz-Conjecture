@@ -23,55 +23,132 @@
         輸入一個正整數 (n) 並開始運算：(1) 若 n 偶數 &rarr; n/2 ; (2) 若 n 奇數 &rarr; 3n + 1。猜想最終所有數都達到 1。
     </div>
 
-    <div class="panels-grid">
-        <div class="panel">
-            <div class="form-group">
-                <label for="startInput">起始正整數 (n):</label>
-                <input type="number" id="startInput" class="input-control" value="7" min="1" step="1">
+    <!-- 分頁導覽列 -->
+    <div class="tabs-nav">
+        <button class="tab-btn active" data-tab="single">單一數值分析</button>
+        <button class="tab-btn" data-tab="range">範圍數值分析</button>
+    </div>
+
+    <!-- 分頁一：單一數值分析 -->
+    <div id="tabSingle" class="tab-content active">
+        <div class="panels-grid">
+            <div class="panel">
+                <div class="form-group">
+                    <label for="startInput">起始正整數 (n):</label>
+                    <input type="number" id="startInput" class="input-control" value="7" min="1" step="1">
+                </div>
+                <div class="btn-group">
+                    <button id="btnCalc" class="btn btn-primary">開始運算</button>
+                    <button id="btnReset" class="btn btn-secondary">重置</button>
+                </div>
+                <div class="status-box">
+                    <span style="font-weight:bold; margin-right:8px; font-size:14px;">目前運算狀態:</span>
+                    <div id="statusOutput" class="display-field" style="flex-grow:1;">已完成 (n=7)</div>
+                </div>
             </div>
-            <div class="btn-group">
-                <button id="btnCalc" class="btn btn-primary">開始運算</button>
-                <button id="btnReset" class="btn btn-secondary">重置</button>
-            </div>
-            <div class="status-box">
-                <span style="font-weight:bold; margin-right:8px; font-size:14px;">目前運算狀態:</span>
-                <div id="statusOutput" class="display-field" style="flex-grow:1;">已完成 (n=7)</div>
+
+            <div class="panel">
+                <div id="infoTitle" style="font-weight: bold; margin-bottom: 12px; font-size: 15px;">序列資訊 (n=7)</div>
+                
+                <div class="info-inline-group">
+                    <div class="info-inline-item">
+                        <label>起始數:</label>
+                        <div id="infoStart" class="display-field">n = 7</div>
+                    </div>
+                    <div class="info-inline-item">
+                        <label>序列長度 (步驟):</label>
+                        <div id="infoLength" class="display-field">17</div>
+                    </div>
+                    <div class="info-inline-item">
+                        <label>最大值:</label>
+                        <div id="infoMax" class="display-field">52</div>
+                    </div>
+                </div>
+
+                <div class="sequence-box">
+                    <div class="sequence-header-row">
+                        <label id="seqLabel" style="font-size: 14px; font-weight: bold;">完整序列 (n=7):</label>
+                        <span id="successBadge" class="badge-success">最終達到 1!</span>
+                    </div>
+                    <div id="infoSequence" class="display-field" style="word-break: break-all; max-height: 65px; overflow-y: auto; line-height: 1.4;">
+                        7, 22, 11, 34, 17, 52, 26, 13, 40, 20, 10, 5, 16, 8, 4, 2, 1
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="panel">
-            <div id="infoTitle" style="font-weight: bold; margin-bottom: 12px; font-size: 15px;">序列資訊 (n=7)</div>
-            
-            <div class="info-inline-group">
-                <div class="info-inline-item">
-                    <label>起始數:</label>
-                    <div id="infoStart" class="display-field">n = 7</div>
-                </div>
-                <div class="info-inline-item">
-                    <label>序列長度 (步驟):</label>
-                    <div id="infoLength" class="display-field">17</div>
-                </div>
-                <div class="info-inline-item">
-                    <label>最大值:</label>
-                    <div id="infoMax" class="display-field">52</div>
-                </div>
-            </div>
-
-            <div class="sequence-box">
-                <div class="sequence-header-row">
-                    <label id="seqLabel" style="font-size: 14px; font-weight: bold;">完整序列 (n=7):</label>
-                    <span id="successBadge" class="badge-success">最終達到 1!</span>
-                </div>
-                <div id="infoSequence" class="display-field" style="word-break: break-all; max-height: 65px; overflow-y: auto; line-height: 1.4;">
-                    7, 22, 11, 34, 17, 52, 26, 13, 40, 20, 10, 5, 16, 8, 4, 2, 1
-                </div>
+        <div class="chart-container">
+            <div class="chart-title">n 的值隨步驟變化 (Collatz Sequence)</div>
+            <div style="position: relative; max-height: 400px; width: 100%;">
+                <canvas id="collatzChart" style="max-height: 400px; width: 100%;"></canvas>
             </div>
         </div>
     </div>
 
-    <div class="chart-container">
-        <div class="chart-title">n 的值隨步驟變化 (Collatz Sequence)</div>
-        <canvas id="collatzChart" style="max-height: 400px; width: 100%;"></canvas>
+    <!-- 分頁二：範圍數值分析 -->
+    <div id="tabRange" class="tab-content">
+        <div class="panels-grid">
+            <!-- 範圍運算控制面板 -->
+            <div class="panel">
+                <div class="form-group">
+                    <label for="rangeStartInput">起始正整數 (Start):</label>
+                    <input type="number" id="rangeStartInput" class="input-control" value="5" min="1" step="1">
+                </div>
+                <div class="form-group">
+                    <label for="rangeEndInput">結束正整數 (End):</label>
+                    <input type="number" id="rangeEndInput" class="input-control" value="15" min="1" step="1">
+                </div>
+                <div class="btn-group">
+                    <button id="btnRangeCalc" class="btn btn-primary">開始範圍運算</button>
+                    <button id="btnRangeReset" class="btn btn-secondary">重置</button>
+                </div>
+                <div class="status-box">
+                    <span style="font-weight:bold; margin-right:8px; font-size:14px;">目前運算狀態:</span>
+                    <div id="rangeStatusOutput" class="display-field" style="flex-grow:1;">未運算</div>
+                </div>
+            </div>
+
+            <!-- 範圍統計摘要面板 -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">平均收斂步數</div>
+                    <div id="statAvgSteps" class="stat-value">-</div>
+                    <div class="stat-subtext">區間內所有數的平均步數</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">最長收斂步驟</div>
+                    <div id="statMaxSteps" class="stat-value">-</div>
+                    <div id="statMaxStepsNum" class="stat-subtext">數值：-</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">最高收斂峰值</div>
+                    <div id="statMaxPeak" class="stat-value">-</div>
+                    <div id="statMaxPeakNum" class="stat-subtext">數值：-</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 範圍圖表容器 -->
+        <div class="chart-container" style="margin-top: 24px;">
+            <div class="chart-header-row">
+                <div class="chart-title" id="rangeChartTitle">範圍數值收斂軌跡</div>
+                <div class="chart-toggle-group">
+                    <button class="toggle-btn active" data-chart-type="paths">收斂軌跡 (Paths)</button>
+                    <button class="toggle-btn" data-chart-type="compare">步數與峰值 (Steps & Peaks)</button>
+                </div>
+            </div>
+            <div style="position: relative; max-height: 400px; height: 400px; width: 100%;">
+                <canvas id="rangeChart" style="max-height: 400px; width: 100%; height: 100%;"></canvas>
+            </div>
+        </div>
+
+        <!-- 範圍運算明細 -->
+        <div class="details-section">
+            <h3>範圍運算結果明細 (點擊卡片可切換回單一分析)</h3>
+            <div id="detailsGrid" class="details-grid">
+                <!-- JavaScript 動態填入 -->
+            </div>
+        </div>
     </div>
 </div>
 
