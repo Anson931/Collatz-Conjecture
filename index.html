@@ -12,7 +12,13 @@
 <body>
 
 <div class="container">
-    <h2>互動式克拉茲猜想 (Collatz Conjecture) 說明圖表</h2>
+    <div class="header-row">
+        <h2>互動式克拉茲猜想 (Collatz Conjecture) 說明圖表</h2>
+        <button id="themeToggle" class="theme-toggle-btn" aria-label="切換主題">
+            <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+            <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+        </button>
+    </div>
     <div class="subtitle">
         輸入一個正整數 (n) 並開始運算：(1) 若 n 偶數 &rarr; n/2 ; (2) 若 n 奇數 &rarr; 3n + 1。猜想最終所有數都達到 1。
     </div>
